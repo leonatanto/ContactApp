@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@images/*": [
+        "assets/images/*"
+      ]
+    }
+  },
+  "extends": "@tsconfig/react-native/tsconfig.json"
+}
