@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import globalStyles from '../helpers/globalStyle';
-import {Alert} from 'react-native';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -24,7 +23,7 @@ const Login: React.FC = () => {
   };
 
   const [email, setEmail] = useState('');
-
+  const isButtonDisabled = email === '';
   const handleEmailChange = (text: string) => {
     setEmail(text);
   };
@@ -54,11 +53,16 @@ const Login: React.FC = () => {
           placeholderTextColor="#d3d3d3"
           value={email}
           onChangeText={handleEmailChange}
-          keyboardType="email-address" // optional: opens keyboard with email-friendly keys
-          autoCapitalize="none" // optional: prevents automatic capitalization
+          keyboardType="email-address"
+          autoCapitalize="none"
         />
 
-        <TouchableOpacity onPress={handleLogin} style={styles.continueButton}>
+        <TouchableOpacity
+          disabled={isButtonDisabled}
+          onPress={handleLogin}
+          style={
+            isButtonDisabled ? styles.disabledButton : styles.continueButton
+          }>
           <Text style={styles.buttonText}>{'Continue '}</Text>
         </TouchableOpacity>
 
@@ -94,6 +98,17 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 8,
     backgroundColor: '#EA5F2A',
+  },
+  disabledButton: {
+    marginTop: 10,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 5,
+    width: SCREEN_WIDTH - 30,
+    height: 50,
+    borderRadius: 8,
+    backgroundColor: '#d3d3d3',
   },
   image: {
     height: '100%',

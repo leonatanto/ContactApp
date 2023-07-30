@@ -13,7 +13,6 @@ import globalStyles from '../helpers/globalStyle';
 import {login} from '../../providers/api';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
-const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 const Pin: React.FC = () => {
   const navigation = useNavigation();
@@ -21,14 +20,6 @@ const Pin: React.FC = () => {
   const [pin, setPin] = useState(['', '', '', '', '', '']);
   const inputs = useRef([]);
   const {email} = route.params;
-
-  const focusNext = (index: number, value: number) => {
-    setPin(pin.map((val, idx) => (idx === index ? value : val)));
-
-    if (value && index !== 5) {
-      inputs.current[index + 1].focus();
-    }
-  };
 
   const inputElements = pin.map((value, index) => (
     <TextInput
@@ -44,10 +35,31 @@ const Pin: React.FC = () => {
 
   const handleContinue = () => {
     const pinString = pin.join('');
-    console.log(email, 'aa', pinString);
-    login(email, pinString);
-    navigation.navigate('Home');
+    const logins = async () => {
+      try {
+        const data = await login(email, pinString);
+        console.log(data);
+        navigation.navigate('Home');
+      } catch (error) {
+        alert('Wrong username/password!');
+      }
+    };
+
+    logins();
   };
+
+  const focusNext = (index: number, value: number) => {
+    setPin(pin.map((val, idx) => (idx === index ? value : val)));
+
+    if (value && index !== 5) {
+      inputs.current[index + 1].focus();
+    }
+    if (value && index === 5) {
+      handleContinue();
+    }
+  };
+
+  const isButtonDisabled = pin.join('').length < 5;
 
   return (
     <View style={styles.container}>
@@ -63,7 +75,10 @@ const Pin: React.FC = () => {
         {email}
       </Text>
       <View style={styles.inputContainer}>{inputElements}</View>
-      <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
+      <TouchableOpacity
+        disabled={isButtonDisabled}
+        style={isButtonDisabled ? styles.disabledButton : styles.continueButton}
+        onPress={handleContinue}>
         <Text style={styles.buttonText}>{'Continue '}</Text>
       </TouchableOpacity>
     </View>
@@ -89,6 +104,17 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 8,
     backgroundColor: '#EA5F2A',
+  },
+  disabledButton: {
+    marginTop: 30,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 5,
+    width: SCREEN_WIDTH - 30,
+    height: 50,
+    borderRadius: 8,
+    backgroundColor: '#d3d3d3',
   },
   email: {
     color: '#545454',

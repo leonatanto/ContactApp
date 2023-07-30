@@ -20,36 +20,9 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 function Home() {
   const navigation = useNavigation();
-  const [loading, setLoading] = useState(false);
-  const [homeData, setHomeData] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const data = await getHomeData();
-        setHomeData(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   return (
     <>
-      {/* {loading && (
-        <>
-          <View style={styles.loader}>
-            <ActivityIndicator size="large" color="#0e9e18" />
-          </View>
-
-          <View style={styles.loaderBackground} />
-        </>
-      )} */}
       <View style={styles.container}>
         <View style={styles.topContainer}>
           <Text style={[globalStyles.descriptionRegular, styles.bannerTitle]}>
@@ -105,7 +78,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: '80%',
     right: 0,
-    backgroundColor: '#EA5F2A', // Change to your desired color
+    backgroundColor: '#EA5F2A',
   },
   bottomContainer: {
     position: 'absolute',
@@ -113,7 +86,7 @@ const styles = StyleSheet.create({
     top: '20%',
     bottom: 0,
     right: 0,
-    backgroundColor: 'white', // Change to your desired color
+    backgroundColor: 'white',
   },
   supportText: {color: '#878787'},
   homeBanner: {height: 200, width: 200},

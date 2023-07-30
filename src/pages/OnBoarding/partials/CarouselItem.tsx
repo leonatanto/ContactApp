@@ -18,7 +18,6 @@ interface CarouselItemInterface {
 
 const CarouselItem: React.FC<CarouselItemInterface> = ({src, index}) => {
   const carouselTitle = (activeIndex: number) => {
-    console.log(activeIndex, 'asda');
     switch (activeIndex) {
       case 0:
         return (
