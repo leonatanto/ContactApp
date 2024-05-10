@@ -11,8 +11,8 @@ export async function login(email: string, pin: string) {
   const loginApiUrl = loginApi();
 
   const requestBody = {
-    email: email,
-    password: pin,
+    email: 'eve.holt@reqres.in',
+    password: 'cityslicka',
   };
 
   try {
